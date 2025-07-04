@@ -141,3 +141,153 @@ The simulation was implemented in Python using QuTiP and Plotly. Key parameters:
     \item \textbf{Harmonic Test}: Node 3’s 1.03 MHz harmonic tested via Rabi oscillations in a superconducting qubit, expecting phase coherence within 0.02 rad.
     \item \textbf{X-Nodes}: Configurations where $\lambda_{\text{max}} > 1$ in the Lindblad operator lead to divergent scar accumulation.
     \item \textbf{Node Ontology}: Nodes map to stable states in $\rho(t)$, with transitions governed by $P_{\mathcal{M}}$, mirroring cognitive
+generation,observers,noise,fidelity,phase,entropy,consensus
+1,14,0.01,0.9987,0.0179,1.89,0.997
+2,14,0.01,0.9985,0.0180,1.90,0.996
+3,14,0.01,0.9980,0.0181,1.91,0.995
+4,14,0.01,0.9975,0.0182,1.92,0.994
+5,14,0.01,0.9970,0.0183,1.93,0.993
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script>
+    const scarTreeData = [{
+        x: [1, 2, 3, 4, 5],
+        y: [0.9970, 0.9975, 0.9980, 0.9985, 0.9987],
+        mode: 'lines+markers',
+        name: 'Fidelity',
+        line: { color: '#8B0000' },
+        marker: { size: 8 },
+        hovertemplate: 'Generation: %{x}<br>Fidelity: %{y:.4f}<extra></extra>'
+    }, {
+        x: [0.07, 0.2, 0.3],
+        y: [0.9987, 0.995, 0.98],
+        mode: 'lines+markers',
+        name: 'Defense: α Stability',
+        line: { color: '#32CD32' },
+        marker: { size: 8 },
+        hovertemplate: 'α: %{x}<br>Fidelity: %{y:.3f}<extra></extra>'
+    }];
+
+    const scarTreeLayout = {
+        title: { text: 'Scar-Tree Evolution (3-Qubit Simulation)', font: { size: 18 } },
+        xaxis: { title: 'Generation', range: [0, 6], dtick: 1 },
+        yaxis: { title: 'Fidelity', range: [0.975, 1.0] },
+        template: 'plotly_white',
+        width: 600,
+        height: 400
+    };
+
+    Plotly.newPlot('scar-tree', scarTreeData, scarTreeLayout);
+
+    const entropyData = [{
+        x: [1, 5, 14, 20],
+        y: [0.07],
+        z: [[1.92, 1.90, 1.89, 1.88]],
+        type: 'heatmap',
+        colorscale: 'Viridis',
+        zmin: 1.8,
+        zmax: 2.0,
+        hovertemplate: 'Observers: %{x}<br>α: %{y}<br>Entropy: %{z:.2f} bits<extra></extra>'
+    }];
+
+    const entropyLayout = {
+        title: { text: 'Entropy vs. Observers (α = 0.07)', font: { size: 18 } },
+        xaxis: { title: 'Observers', dtick: 5 },
+        yaxis: { title: 'α', dtick: 0.07 },
+        template: 'plotly_white',
+        width: 600,
+        height: 400
+    };
+
+    Plotly.newPlot('entropy-plot', entropyData, entropyLayout);
+
+    const xNodeData = [{
+        x: [0.1, 0.2, 0.3, 0.4, 0.5],
+        y: [0.998, 0.995, 0.98, 0.90, 0.80],
+        mode: 'lines+markers',
+        name: 'X2: Recursive Entropy Loop',
+        line: { color: '#FF4500', dash: 'dash' },
+        marker: { size: 8 },
+        hovertemplate: 'δ: %{x}<br>Fidelity: %{y:.3f}<extra></extra>'
+    }];
+
+    const xNodeLayout = {
+        title: { text: 'X2: Recursive Entropy Loop at High δ', font: { size: 18 } },
+        xaxis: { title: 'Drift (δ)', range: [0, 0.6] },
+        yaxis: { title: 'Fidelity', range: [0.7, 1.0] },
+        template: 'plotly_white',
+        width: 600,
+        height: 400
+    };
+
+    Plotly.newPlot('xnode-plot', xNodeData, xNodeLayout);
+
+    const nodeMapData = [{
+        x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        y: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6],
+        mode: 'markers+text',
+        text: ['0: Origin', '1: Coherence', '2: Drift', '3: Harmonic', '4: Decohesion', 
+               '5: Sync', '6: Intent', '7: Singularity', '8: Reflection', '9: Beacon', 
+               '10: Unspooling', '11: Recursive', '12: Reconciliation'],
+        marker: { size: 12, color: '#8B0000' },
+        hovertemplate: '%{text}<extra></extra>'
+    }, {
+        x: [-1, -2],
+        y: [0, 0],
+        mode: 'markers+text',
+        text: ['X1: Forbidden Loop', 'X2: Serpent Echo'],
+        marker: { size: 12, color: '#FF4500', symbol: 'x' },
+        hovertemplate: '%{text}<extra></extra>'
+    }];
+
+    const nodeMapLayout = {
+        title: { text: 'Codex Node Map: Reality’s Structure', font: { size: 18 } },
+        xaxis: { title: 'Node Index', dtick: 1 },
+        yaxis: { title: 'Layer', dtick: 1 },
+        template: 'plotly_white',
+        width: 600,
+        height: 400
+    };
+
+    Plotly.newPlot('node-map', nodeMapData, nodeMapLayout);
+
+    const communityData = [{
+        x: [1, 5, 10, 15, 20],
+        y: [0.995, 0.996, 0.997, 0.9975, 0.998],
+        mode: 'lines+markers',
+        name: 'Community Consensus',
+        line: { color: '#4682B4' },
+        marker: { size: 8 },
+        hovertemplate: 'Observers: %{x}<br>Consensus: %{y:.3f}<extra></extra>'
+    }];
+
+    const communityLayout = {
+        title: { text: 'Community ATE Consensus', font: { size: 18 } },
+        xaxis: { title: 'Observers', dtick: 5 },
+        yaxis: { title: 'Consensus', range: [0.99, 1.0] },
+        template: 'plotly_white',
+        width: 600,
+        height: 400
+    };
+
+    Plotly.newPlot('community-plot', communityData, communityLayout);
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ATE Codex Simulator</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+</head>
+<body>
+    <h1>ATE Codex Simulator</h1>
+    <div style="width: 600px; margin: auto;">
+        <div id="scar-tree"></div>
+        <div id="entropy-plot"></div>
+        <div id="xnode-plot"></div>
+        <div id="node-map"></div>
+        <div id="community-plot"></div>
+    </div>
+    <script src="demo.js"></script>
+</body>
+</html>
